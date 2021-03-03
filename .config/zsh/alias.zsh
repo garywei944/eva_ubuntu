@@ -2,6 +2,8 @@
 alias c="clear"
 alias fdh='fd -H'
 alias fdhi='fd -HI'
+alias rgh='rg --hidden'
+alias rghi='rg --hidden --no-ignore'
 alias s='neofetch'
 
 # Commands
