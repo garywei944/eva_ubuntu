@@ -1,0 +1,6 @@
+ ☐ Show desktop and then resume with tag 1
+ ☐ Rename each tags
+ ☐ change default wallpapers
+ ☐ Set change wallpaper every 10 min
+ ✔ Set win+l to lock @done (21-02-27 00:55)
+ ☐ Rule chrome/other apps with default labels
