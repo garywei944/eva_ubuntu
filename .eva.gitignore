@@ -23,6 +23,7 @@
 !.config/zsh
 
 !.config/nautiterm.yml
+!.config/zshrc
 
 # extentions
 *.uuid
