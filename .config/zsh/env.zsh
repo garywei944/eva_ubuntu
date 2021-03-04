@@ -15,7 +15,7 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export PATH=$PATH:~/.cargo/bin:~/.eva/bin
+export PATH=$PATH:~/.cargo/bin:~/.bin
 export EVA="ariseus"
 
 # >>> conda initialize >>>
