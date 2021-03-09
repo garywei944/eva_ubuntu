@@ -12,7 +12,7 @@ alias bsdy='browser-sync start --proxy "" --files "", \!.git'
 alias gaignore='git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached'
 alias reload='. ~/.zshrc'
 alias xaw='Xephyr -br -ac -noreset -screen 1920x1080 :1 & sleep 2 ; DISPLAY=:1 awesome'
-alias xpt='Xephyr -br -ac -noreset -screen 1920x1080 :1 & sleep 2 ; DISPLAY=:1 qtile start'
+alias xqt='Xephyr -br -ac -noreset -screen 1920x1080 :1 & sleep 2 ; DISPLAY=:1 qtile start'
 
 # Servers
 alias sachiel='ssh root@47.92.194.143'

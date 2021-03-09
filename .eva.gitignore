@@ -30,6 +30,7 @@
 
 # extentions
 *.uuid
+.idea
 
 ###Python###
 

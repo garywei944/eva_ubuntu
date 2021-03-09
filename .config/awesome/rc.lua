@@ -345,7 +345,7 @@ globalkeys = gears.table.join(awful.key({ modkey }, "s", hotkeys_popup.show_help
         { description = "lock screen", group = "ariseus" }),
 
     -- Dmenu
-    awful.key({ modkey }, "space", function() awful.util.spawn("dmenu_run") end,
+    awful.key({ "Control" }, "space", function() awful.util.spawn("dmenu_run") end,
         { description = "launch dmenu", group = "ariseus" }),
 
     -- Nautilus

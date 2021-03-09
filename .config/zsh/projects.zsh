@@ -14,3 +14,4 @@ __open_project() {
 alias peva='__open_project ~/.eva'
 alias pe='__open_project ~/.spacemacs.d'
 alias pst='__open_project ~/.config/sublime-text-3/Packages'
+alias pweb='__open_project ~/Projects/garywei944.github.io'
