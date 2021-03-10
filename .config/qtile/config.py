@@ -33,15 +33,32 @@ from libqtile.lazy import lazy
 import os
 import subprocess
 
+
+def window_to_previous_screen(_qtile):
+    _screen_index = _qtile.screens.index(_qtile.current_screen)
+    if _screen_index != 0:
+        _group = _qtile.screens[_screen_index - 1].group.name
+        _qtile.current_window.togroup(_group)
+        _qtile.focus_screen(_screen_index - 1)
+
+
+def window_to_next_screen(_qtile):
+    _screen_index = _qtile.screens.index(_qtile.current_screen)
+    if _screen_index + 1 != len(_qtile.screens):
+        _group = _qtile.screens[_screen_index + 1].group.name
+        _qtile.current_window.togroup(_group)
+        _qtile.focus_screen(_screen_index + 1)
+
+
 mod = "mod4"
 terminal = "terminator"
 
 keys = [
     # Switch between windows
-    # Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    # Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    # Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    # Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key(["mod1"], "Tab", lazy.layout.next(),
         desc="Move window focus to other window"),
 
@@ -54,6 +71,13 @@ keys = [
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
         desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod], "Left", lazy.layout.shuffle_left(),
+        desc="Move window to the left"),
+    Key([mod], "Right", lazy.layout.shuffle_right(),
+        desc="Move window to the right"),
+    Key([mod], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod], "Down", lazy.layout.shuffle_down(),
+        desc="Move window down"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
@@ -64,7 +88,22 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(),
         desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+
+    # xmonadtall
+    Key([mod, "control"], "h", lazy.layout.shrink(), desc="Shrink window"),
+    Key([mod, "control"], "l", lazy.layout.grow(), desc="Grow window"),
+    Key([mod, "control"], "j", lazy.layout.shrink(), desc="Shrink window"),
+    Key([mod, "control"], "k", lazy.layout.grow(), desc="Grow window"),
+
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "control"], "space", lazy.window.toggle_floating(),
+        desc="Toggle floating"),
+
+    # Switch between monitors
+    Key([mod, "shift"], "Left", lazy.function(window_to_next_screen),
+        desc="Move window to the next monitor"),
+    Key([mod, "shift"], "Right", lazy.function(window_to_previous_screen),
+        desc="Move window to the previous monitor"),
 
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -80,36 +119,39 @@ keys = [
 
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key(["control", 'mod1'], 'Delete', lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawncmd(),
+        desc="Spawn a command using a prompt widget"),
 
     # Control Qtile
-    Key([mod], 'l', lazy.spawn('lock'), desc="Lock Qtile"),
-    Key([mod], 'd', lazy.screen.toggle_group('9'), desc="Show Desktop"),
-    Key(["control", "shift"], "Escape", lazy.spawn("gnome-system-monitor"), desc="Launch system monitor"),
+    Key([mod], 'semicolon', lazy.spawn('lock'), desc="Lock Qtile"),
+    Key([mod], 'd', lazy.screen.toggle_group('Desktop'), desc="Show Desktop"),
+    Key(["control", "shift"], "Escape", lazy.spawn("gnome-system-monitor"),
+        desc="Launch system monitor"),
 
     # Launch applications
-    Key(["control"], "space", lazy.spawn("dmenu_run", shell=True), desc="Launch dmenu"),
+    Key(["control"], "space", lazy.spawn("dmenu_run", shell=True),
+        desc="Launch dmenu"),
     Key([mod], "e", lazy.spawn("nautilus"), desc="Launch nautilus"),
     Key([mod], "b", lazy.spawn("google-chrome"), desc="Launch google chrome"),
-    Key([mod], "KP_Left", lazy.spawn("netease-cloud-music"), desc="Launch netease cloud music"),
+    Key([mod], "KP_Left", lazy.spawn("netease-cloud-music"),
+        desc="Launch netease cloud music"),
+
+    # Just for test
+    Key([mod], "a", lazy.group['Desktop'].toscreen(0))
+]
+_group_names = [
+    ("Major", {'layout': ['xmonadtall', 'max']}),
+    ("Minor", {'layout': ['columns', 'max']}),
+    ("Desktop", {'layout': 'columns'})
 ]
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(name, **kwargs) for name, kwargs in _group_names]
 
-for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
-            desc="Switch to group {}".format(i.name)),
-
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-        #     desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
-        # # mod1 + shift + letter of group = move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            desc="move focused window to group {}".format(i.name)),
-    ])
+for i, (name, kwargs) in enumerate(_group_names, 1):
+    keys.append(Key([mod], str(i),
+                    lazy.group[name].toscreen()))  # Switch to another group
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(
+        name)))  # Send current window to another group
 
 _layout_theme = {
     "border_width": 1,
@@ -119,16 +161,27 @@ _layout_theme = {
 }
 
 layouts = [
-    layout.Columns(**_layout_theme),
+    layout.MonadTall(
+        align=1,
+        **_layout_theme
+    ),
     layout.Max(),
+    layout.Columns(
+        # fair=True,
+        insert_position=1,
+        **_layout_theme
+    ),
+    # layout.Bsp(
+    #     grow_amount=2,
+    #     **_layout_theme
+    # ),
     # Try more layouts by unleashing below layouts.
+    # layout.Tile(),
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
+    # layout.Slice(),
     # layout.Matrix(),
-    # layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
-    # layout.Tile(),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
@@ -145,12 +198,9 @@ screens = [
     Screen(
         top=bar.Bar(
             [
+                widget.CurrentLayout(),
                 widget.GroupBox(),
                 widget.WindowName(),
-                widget.Net(
-                    interface="enp6s0",
-                    format='{down} ↓↑ {up}'
-                ),
             ],
             24
         ),
@@ -159,8 +209,9 @@ screens = [
         top=bar.Bar(
             [
                 widget.Image(
-                    filename="~/Projects/qtile/logo.png",
-                    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("dmenu_run")}
+                    filename="~/.config/qtile/logo.png",
+                    mouse_callbacks={
+                        "Button1": lambda: qtile.cmd_spawn("dmenu_run")}
                 ),
                 widget.CurrentLayout(),
                 widget.GroupBox(),
@@ -172,7 +223,15 @@ screens = [
                 #     },
                 #     name_transform=lambda name: name.upper(),
                 # ),
-                widget.TextBox("Welcome, ariseus.", foreground="#ff66cc"),
+                widget.TextBox(
+                    "Welcome, ariseus.",
+                    foreground="#ff66cc",
+                    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("waw")}
+                ),
+                widget.Net(
+                    interface="enp6s0",
+                    format='{down} ↓↑ {up}'
+                ),
                 widget.Systray(),
                 widget.Clock(format='%Y/%m/%d %a %I:%M %p'),
                 # widget.QuickExit(),
@@ -184,11 +243,11 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag([], "Button1", lazy.window.set_position_floating(),
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
     # Drag([mod], "Button3", lazy.window.set_size_floating(),
     #      start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
+    # Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 
 dgroups_key_binder = None
@@ -223,5 +282,10 @@ wmname = "LG3D"
 
 @hook.subscribe.startup_once
 def start_once():
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.autostart.sh'])
+    _home = os.path.expanduser('~')
+    subprocess.call([_home + '/.autostart.sh'])
+
+
+@hook.subscribe.startup_complete
+def start():
+    lazy.group['Major'].toscreen(1)
