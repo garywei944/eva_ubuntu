@@ -1,0 +1,5 @@
+ ☐ Configure top bar
+ ☐ Configure group rules
+ ☐ Implement a conditional drag that only uses Button1
+ ☐ Add shortcut for maximize
+ ☐ Try to make a title bar?
