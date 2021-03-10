@@ -246,25 +246,26 @@ root.buttons(gears.table.join(awful.button({}, 3, function() mymainmenu:toggle()
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = gears.table.join(awful.key({ modkey }, "s", hotkeys_popup.show_help,
-    { description = "show help", group = "awesome" }),
-    awful.key({ modkey }, "j", awful.tag.viewprev,
-        { description = "view previous", group = "tag" }),
-    awful.key({ modkey }, "k", awful.tag.viewnext,
-        { description = "view next", group = "tag" }),
-    awful.key({ modkey }, "Escape", awful.tag.history.restore,
-        { description = "go back", group = "tag" }),
+globalkeys = gears.table.join(
+    awful.key({ modkey }, "s", hotkeys_popup.show_help,
+        { description = "show help", group = "awesome" }),
+    -- awful.key({ modkey }, "j", awful.tag.viewprev,
+    --     { description = "view previous", group = "tag" }),
+    -- awful.key({ modkey }, "k", awful.tag.viewnext,
+    --     { description = "view next", group = "tag" }),
+    -- awful.key({ modkey }, "Escape", awful.tag.history.restore,
+    --     { description = "go back", group = "tag" }),
 
-    awful.key({ modkey }, "j",
-        function()
-            awful.client.focus.byidx(1)
-        end,
-        { description = "focus next by index", group = "client" }),
-    awful.key({ modkey }, "k",
-        function()
-            awful.client.focus.byidx(-1)
-        end,
-        { description = "focus previous by index", group = "client" }),
+    -- awful.key({ modkey }, "j",
+    --     function()
+    --         awful.client.focus.byidx(1)
+    --     end,
+    --     { description = "focus next by index", group = "client" }),
+    -- awful.key({ modkey }, "k",
+    --     function()
+    --         awful.client.focus.byidx(-1)
+    --     end,
+    --     { description = "focus previous by index", group = "client" }),
 
     awful.key({ "Mod1", }, "Tab",
         function()
@@ -647,19 +648,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 beautiful.useless_gap = 5
 
 -- Autostart
-autorun = true
-autorunApps =
-{
-    "numlockx on",
-    -- "compton -b -c --backend glx --vsync opengl-swc",
-    "compton",
-    "albert",
-    "nitrogen --force-setter=xinerama --head=0 --set-zoom-fill --random ~/Pictures/Wallpapers",
-    "nitrogen --force-setter=xinerama --head=1 --set-zoom-fill --random ~/Pictures/Wallpapers",
-}
-
-if autorun then
-    for app = 1, #autorunApps do
-        awful.spawn.with_shell(autorunApps[app])
-    end
-end
+awful.spawn.with_shell("~/.autostart.sh &")
