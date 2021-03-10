@@ -187,6 +187,15 @@ layouts = [
     # layout.Zoomy(),
 ]
 
+colors = [["#282c34", "#282c34"],  # panel background
+          ["#434758", "#434758"],  # background for current screen tab
+          ["#ffffff", "#ffffff"],  # font color for group names
+          ["#ff5555", "#ff5555"],  # border line color for current tab
+          ["#8d62a9", "#8d62a9"],
+          # border line color for other tab and odd widgets
+          ["#668bd7", "#668bd7"],  # color for the even widgets
+          ["#e1acff", "#e1acff"]]  # window name
+
 widget_defaults = dict(
     font='sans',
     fontsize=12,
@@ -208,6 +217,12 @@ screens = [
     Screen(
         top=bar.Bar(
             [
+                widget.Sep(
+                    linewidth=0,
+                    padding=6,
+                    foreground=colors[2],
+                    background=colors[0]
+                ),
                 widget.Image(
                     filename="~/.config/qtile/logo.png",
                     mouse_callbacks={
@@ -228,10 +243,40 @@ screens = [
                     foreground="#ff66cc",
                     mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("waw")}
                 ),
+                widget.TextBox(
+                    text=" 🌡",
+                    padding=2,
+                    fontsize=11
+                ),
+                widget.ThermalSensor(
+                    threshold=90,
+                    padding=5
+                ),
+                widget.TextBox(
+                    text=" 🖬",
+                    padding=0,
+                    fontsize=14
+                ),
+                widget.Memory(
+                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(
+                        terminal + ' -e bashtop')},
+                    measure_mem='G',
+                    padding=5
+                ),
+                widget.TextBox(
+                    text='Network:',
+                ),
                 widget.Net(
                     interface="enp6s0",
                     format='{down} ↓↑ {up}'
                 ),
+                # widget.TextBox(
+                #     text=" Vol:",
+                #     padding=0
+                # ),
+                # widget.Volume(
+                #     padding=5
+                # ),
                 widget.Systray(),
                 widget.Clock(format='%Y/%m/%d %a %I:%M %p'),
                 # widget.QuickExit(),
