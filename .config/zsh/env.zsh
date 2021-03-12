@@ -16,6 +16,12 @@ fi
 # export ARCHFLAGS="-arch x86_64"
 
 export PATH=$PATH:~/.cargo/bin:~/.bin
+
+# GPG_TTY
+export GPG_TTY="$(tty)"
+
+
+# Custom environment variable
 export EVA="ariseus"
 
 # >>> conda initialize >>>
