@@ -26,7 +26,7 @@
 !.config/personal
 !.config/qtile
 !.config/terminator
-!.config/zsh
+!.config/zsh_custom
 
 !.config/nautiterm.yml
 !.config/zshrc
