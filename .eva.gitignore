@@ -1,5 +1,11 @@
 /*
 
+# directories
+!.bin
+!.eva
+!.spacemacs.d
+
+# files
 !.autostart.sh
 !.condarc
 !.eva.gitignore
@@ -9,9 +15,6 @@
 !LICENSE
 !Vagrantfile
 !README.md
-
-# .bin
-!.bin
 
 # .config
 !.config
@@ -27,9 +30,6 @@
 
 !.config/nautiterm.yml
 !.config/zshrc
-
-# .spacemacs.d
-!.spacemacs.d
 
 # extentions
 *.uuid

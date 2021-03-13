@@ -1,9 +1,11 @@
-[submodule ".config/awesome/lain"]
-	path = .config/awesome/lain
-	url = https://github.com/lcpz/lain.git
-	shallow = true
+[submodule ".spacemacs.d"]
+	path = .spacemacs.d
+	url = git@github.com:garywei944/.spacemacs.d.git
 [submodule ".config/awesome/themes"]
 	path = .config/awesome/themes
 	url = git@github.com:garywei944/awesome-copycats.git
 	branch = themes
 	shallow = true
+[submodule ".eva"]
+	path = .eva
+	url = git@github.com:garywei944/eva_init.git
