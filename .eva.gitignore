@@ -2,8 +2,6 @@
 
 # directories
 !.bin
-!.eva
-!.spacemacs.d
 
 # files
 !.autostart.sh
