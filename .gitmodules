@@ -1,0 +1,9 @@
+[submodule ".config/awesome/lain"]
+	path = .config/awesome/lain
+	url = https://github.com/lcpz/lain.git
+	shallow = true
+[submodule ".config/awesome/themes"]
+	path = .config/awesome/themes
+	url = git@github.com:garywei944/awesome-copycats.git
+	branch = themes
+	shallow = true
