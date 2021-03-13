@@ -734,11 +734,11 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
--- Theme
-local dpi = require("beautiful.xresources").apply_dpi
-beautiful.font = "sans 8"
-beautiful.useless_gap = dpi(5)
-beautiful.menu_height = dpi(15)
+-- -- Theme
+-- local dpi = require("beautiful.xresources").apply_dpi
+-- beautiful.font = "sans 8"
+-- beautiful.useless_gap = dpi(5)
+-- beautiful.menu_height = dpi(15)
 
 -- Autostart
 awful.spawn.with_shell("~/.autostart.sh &")

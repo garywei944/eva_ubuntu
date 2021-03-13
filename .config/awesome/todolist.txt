@@ -6,3 +6,4 @@
  ☐ Rule chrome/other apps with default labels
  ☐ Write functions for swap with the left, right.
  ☐ random theme
+ ☐ recursive init git submodules

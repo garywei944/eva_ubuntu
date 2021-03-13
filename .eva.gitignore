@@ -28,6 +28,9 @@
 !.config/nautiterm.yml
 !.config/zshrc
 
+# .spacemacs.d
+!.spacemacs.d
+
 # extentions
 *.uuid
 .idea
