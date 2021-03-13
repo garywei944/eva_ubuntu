@@ -308,9 +308,9 @@ globalkeys = gears.table.join(
 				{ description = "focus with next client by index", group = "client" }
 		),
 
-		awful.key({ modkey, "Control" }, "n", function()awful.screen.focus_bydirection("right") end,
+		awful.key({ modkey }, "comma", function() awful.screen.focus_bydirection("right") end,
 				{ description = "focus the next screen", group = "screen" }),
-		awful.key({ modkey, "Control" }, "p", function() awful.screen.focus_bydirection("left") end,
+		awful.key({ modkey }, "m", function() awful.screen.focus_bydirection("left") end,
 				{ description = "focus the previous screen", group = "screen" }),
 
 		-- view tags
@@ -470,14 +470,55 @@ clientkeys = gears.table.join(
 		awful.key({ modkey }, "Right", function() awful.client.swap.global_bydirection("right") end,
 				{ description = "swap with right", group = "client" }),
 
+		-- move client to tag
+		awful.key({ modkey, "Control" }, "p",
+				function()
+			        local t = client.focus and client.focus.first_tag or nil
+			        if t then
+				        local tag = client.focus.screen.tags[(t.index - 2) % 9 + 1]
+				        awful.client.movetotag(tag)
+				    end
+				end,
+				{ description = "move focused client to previous tag", group = "tag" }),
+		awful.key({ modkey, "Control" }, "n",
+				function()
+			        local t = client.focus and client.focus.first_tag or nil
+			        if t then
+				        local tag = client.focus.screen.tags[t.index % 9 + 1]
+				        awful.client.movetotag(tag)
+				    end
+				end,
+				{ description = "move focused client to next tag", group = "tag" }),
+		awful.key({ modkey, "Shift" }, "p",
+				function()
+			        local t = client.focus and client.focus.first_tag or nil
+			        if t then
+				        local tag = client.focus.screen.tags[(t.index - 2) % 9 + 1]
+				        awful.client.movetotag(tag)
+				        awful.tag.viewprev()
+				    end
+				end,
+				{ description = "send focused client to previous tag", group = "tag" }),
 		awful.key({ modkey, "Shift" }, "n",
+				function()
+			        local t = client.focus and client.focus.first_tag or nil
+			        if t then
+				        local tag = client.focus.screen.tags[t.index % 9 + 1]
+				        awful.client.movetotag(tag)
+				        awful.tag.viewnext()
+				    end
+				end,
+				{ description = "send focused client to next tag", group = "tag" }),
+
+		-- move client to screen
+		awful.key({ modkey, "Shift" }, "comma",
 				function(c)
 					if c.screen.index < screen.count() then
 						c:move_to_screen(c.screen.index+1)
 					end
 				end,
 				{ description = "move to the next screen", group = "screen" }),
-		awful.key({ modkey, "Shift" }, "p",
+		awful.key({ modkey, "Shift" }, "m",
 				function(c)
 					if c.screen.index > 1 then
 						c:move_to_screen(c.screen.index-1)
@@ -676,9 +717,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
--- Gaps
-beautiful.useless_gap = 5
 
 -- Autostart
 awful.spawn.with_shell("~/.autostart.sh &")
