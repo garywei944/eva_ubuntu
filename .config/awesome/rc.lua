@@ -50,7 +50,23 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-beautiful.init(string.format("%s/.config/awesome/theme.lua", os.getenv("HOME")))
+
+local themes = {
+    "blackburn",       -- 1
+    "copland",         -- 2
+    "dremora",         -- 3
+    "holo",            -- 4
+    "multicolor",      -- 5
+    "powerarrow",      -- 6
+    "powerarrow-dark", -- 7
+    "rainbow",         -- 8
+    "steamburn",       -- 9
+    "vertex",          -- 10
+}
+
+local chosen_theme = themes[2]
+-- beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..chosen_theme.."/theme.lua")
+beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "x-terminal-emulator"
@@ -717,6 +733,12 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- Theme
+local dpi = require("beautiful.xresources").apply_dpi
+beautiful.font = "sans 8"
+beautiful.useless_gap = dpi(5)
+beautiful.menu_height = dpi(15)
 
 -- Autostart
 awful.spawn.with_shell("~/.autostart.sh &")
