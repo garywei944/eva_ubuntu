@@ -231,6 +231,19 @@ awful.screen.connect_for_each_screen(function(s)
 		buttons = tasklist_buttons
 	}
 
+	-- Create a textbox with Welcome ariseus
+	s.mywelcomemsg = wibox.widget {
+		markup = "<span foreground=\"#ff66cc\">Welcome, ariseus.</span>",
+		screen = s,
+		buttons = gears.table.join(
+			awful.button({ }, 1, function() awful.spawn.with_shell("waw &") end)
+		),
+		widget = wibox.widget.textbox
+	}
+	-- s.mywelcomemsg:press {function()
+	-- 		awful.spawn(terminal)
+	-- 	end}
+
 	-- Create the wibox
 	s.mywibox = awful.wibar({ position = "top", screen = s })
 
@@ -246,6 +259,7 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
+			s.mywelcomemsg,
 			mykeyboardlayout,
 			wibox.widget.systray(),
 			mytextclock,
@@ -735,11 +749,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- -- Theme
--- local dpi = require("beautiful.xresources").apply_dpi
+local dpi = require("beautiful.xresources").apply_dpi
 -- beautiful.font = "sans 8"
--- beautiful.useless_gap = dpi(5)
+beautiful.useless_gap = dpi(5)
 -- beautiful.menu_height = dpi(15)
 
 -- Autostart
 awful.spawn.with_shell("~/.autostart.sh &")
--- awful.spawn(terminal)

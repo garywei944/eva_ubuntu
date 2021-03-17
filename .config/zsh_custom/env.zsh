@@ -15,7 +15,7 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export PATH=$PATH:~/.cargo/bin:~/.bin
+export PATH=$PATH:~/.cargo/bin
 
 # GPG_TTY
 export GPG_TTY="$(tty)"
