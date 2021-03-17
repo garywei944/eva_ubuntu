@@ -49,7 +49,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
--- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 local themes = {
     "blackburn",       -- 1
@@ -66,7 +66,7 @@ local themes = {
 
 local chosen_theme = themes[2]
 -- beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..chosen_theme.."/theme.lua")
-beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+-- beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "x-terminal-emulator"
@@ -159,8 +159,8 @@ local taglist_buttons = gears.table.join(
 				client.focus:toggle_tag(t)
 			end
 		end),
-		awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-		awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+		awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
+		awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end)
 )
 
 local tasklist_buttons = gears.table.join(
@@ -179,11 +179,12 @@ local tasklist_buttons = gears.table.join(
 			awful.menu.client_list({ theme = { width = 250 } })
 		end),
 		awful.button({ }, 4, function()
-			awful.client.focus.byidx(1)
+			awful.client.focus.byidx(-1)
 		end),
 		awful.button({ }, 5, function()
-			awful.client.focus.byidx(-1)
-		end))
+			awful.client.focus.byidx(1)
+		end)
+)
 
 -- local function set_wallpaper(s)
 -- 	-- Wallpaper
@@ -272,8 +273,8 @@ end)
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
 		awful.button({ }, 3, function() mymainmenu:toggle() end),
-		awful.button({ }, 4, awful.tag.viewprev),
-		awful.button({ }, 5, awful.tag.viewnext)
+		awful.button({ modkey }, 4, awful.tag.viewprev),
+		awful.button({ modkey }, 5, awful.tag.viewnext)
 ))
 -- }}}function
 
@@ -619,6 +620,12 @@ clientbuttons = gears.table.join(
 		awful.button({ modkey }, 3, function(c)
 			c:emit_signal("request::activate", "mouse_click", { raise = true })
 			awful.mouse.client.resize(c)
+		end),
+		awful.button({ modkey }, 4, function()
+			awful.tag.viewprev()
+		end),
+		awful.button({ modkey }, 5, function()
+			awful.tag.viewnext()
 		end)
 )
 
