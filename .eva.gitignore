@@ -2,6 +2,8 @@
 
 # directories
 !.bin
+!.icons
+!.themes
 
 # files
 !.autostart.sh

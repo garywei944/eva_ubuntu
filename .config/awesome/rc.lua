@@ -71,7 +71,6 @@ local themes = {
 
 math.randomseed(os.time())
 local chosen_theme = themes[math.random(4)]
-log_debug(chosen_theme)
 -- beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..chosen_theme.."/theme.lua")
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 
