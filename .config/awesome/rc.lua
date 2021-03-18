@@ -22,6 +22,17 @@ require("awful.hotkeys_popup.keys")
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
+
+
+local function log_debug(msg)
+	naughty.notify({
+		preset = naughty.config.presets.critical,
+		title = msg,
+		timeout = 0
+	})
+end
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -49,24 +60,24 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+-- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 local themes = {
-    "blackburn",       -- 1
-    "copland",         -- 2
-    "dremora",         -- 3
-    "holo",            -- 4
-    "multicolor",      -- 5
-    "powerarrow",      -- 6
-    "powerarrow-dark", -- 7
-    "rainbow",         -- 8
-    "steamburn",       -- 9
-    "vertex",          -- 10
+	"blackburn",	   -- 1
+	"copland",		 -- 2
+	"dremora",		 -- 3
+	"holo",			-- 4
+	"multicolor",	  -- 5
+	"powerarrow",	  -- 6
+	"powerarrow-dark", -- 7
+	"rainbow",		 -- 8
+	"steamburn",	   -- 9
+	"vertex",		  -- 10
 }
 
-local chosen_theme = themes[2]
+local chosen_theme = themes[9]
 -- beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..chosen_theme.."/theme.lua")
--- beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "x-terminal-emulator"
@@ -175,6 +186,9 @@ local tasklist_buttons = gears.table.join(
 				)
 			end
 		end),
+		wibox.widget {
+		    widget = wibox.widget.separator
+		},
 		awful.button({ }, 3, function()
 			awful.menu.client_list({ theme = { width = 250 } })
 		end),
@@ -200,6 +214,23 @@ local tasklist_buttons = gears.table.join(
 
 -- -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 -- screen.connect_signal("property::geometry", set_wallpaper)
+
+-- Load third-party widgets
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+-- local net_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+
+local cw = calendar_widget({
+	theme = 'naughty',
+	placement = 'top_right',
+	radius = 8
+})
+mytextclock:connect_signal("button::press",
+	function(_, _, _, button)
+		if button == 1 then cw.toggle() end
+	end
+)
 
 awful.screen.connect_for_each_screen(function(s)
 	-- -- Wallpaper
@@ -232,19 +263,6 @@ awful.screen.connect_for_each_screen(function(s)
 		buttons = tasklist_buttons
 	}
 
-	-- Create a textbox with Welcome ariseus
-	s.mywelcomemsg = wibox.widget {
-		markup = "<span foreground=\"#ff66cc\">Welcome, ariseus.</span>",
-		screen = s,
-		buttons = gears.table.join(
-			awful.button({ }, 1, function() awful.spawn.with_shell("waw &") end)
-		),
-		widget = wibox.widget.textbox
-	}
-	-- s.mywelcomemsg:press {function()
-	-- 		awful.spawn(terminal)
-	-- 	end}
-
 	-- Create the wibox
 	s.mywibox = awful.wibar({ position = "top", screen = s })
 
@@ -260,7 +278,27 @@ awful.screen.connect_for_each_screen(function(s)
 		s.mytasklist, -- Middle widget
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
-			s.mywelcomemsg,
+
+			-- Welcome message textbox
+			wibox.widget {
+				markup = "<span foreground=\"#ff66cc\">Welcome, ariseus.</span>",
+				font = 'sans 8',
+				screen = s,
+				buttons = gears.table.join(
+					awful.button({ }, 1, function() awful.spawn.with_shell("waw &") end)
+				),
+				widget = wibox.widget.textbox
+			},
+			cpu_widget({
+				enable_kill_button = true,
+				timeout = 1
+			}),
+			ram_widget({
+				timeout = 1
+			}),
+			-- net_widget{
+			-- 	interface = "enp6s0"
+			-- },
 			mykeyboardlayout,
 			wibox.widget.systray(),
 			mytextclock,
@@ -277,6 +315,8 @@ root.buttons(gears.table.join(
 		awful.button({ modkey }, 5, awful.tag.viewnext)
 ))
 -- }}}function
+
+local last_tag = nil
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
@@ -401,6 +441,19 @@ globalkeys = gears.table.join(
 		-- awful.key({ modkey }, "p", function() menubar.show() end,
 		-- 		{ description = "show the menubar", group = "launcher" }),
 
+		-- Show Desktop
+		awful.key({ modkey }, "d", function()
+					local s = awful.screen.focused()
+					local t = s.selected_tags[1]
+					if t then
+						last_tag = t
+						t.selected = false
+					else
+						last_tag.selected = true
+					end
+				end,
+				{ description = "open a terminal", group = "launcher" }),
+
 		-- Launcher
 		awful.key({ modkey }, "t", function() awful.spawn(terminal) end,
 				{ description = "open a terminal", group = "launcher" }),
@@ -504,40 +557,40 @@ clientkeys = gears.table.join(
 		-- move client to tag
 		awful.key({ modkey, "Control" }, "p",
 				function()
-			        local t = client.focus and client.focus.first_tag or nil
-			        if t then
-				        local tag = client.focus.screen.tags[(t.index - 2) % 9 + 1]
-				        awful.client.movetotag(tag)
-				    end
+					local t = client.focus and client.focus.first_tag or nil
+					if t then
+						local tag = client.focus.screen.tags[(t.index - 2) % 9 + 1]
+						awful.client.movetotag(tag)
+					end
 				end,
 				{ description = "move focused client to previous tag", group = "tag" }),
 		awful.key({ modkey, "Control" }, "n",
 				function()
-			        local t = client.focus and client.focus.first_tag or nil
-			        if t then
-				        local tag = client.focus.screen.tags[t.index % 9 + 1]
-				        awful.client.movetotag(tag)
-				    end
+					local t = client.focus and client.focus.first_tag or nil
+					if t then
+						local tag = client.focus.screen.tags[t.index % 9 + 1]
+						awful.client.movetotag(tag)
+					end
 				end,
 				{ description = "move focused client to next tag", group = "tag" }),
 		awful.key({ modkey, "Shift" }, "p",
 				function()
-			        local t = client.focus and client.focus.first_tag or nil
-			        if t then
-				        local tag = client.focus.screen.tags[(t.index - 2) % 9 + 1]
-				        awful.client.movetotag(tag)
-				        awful.tag.viewprev()
-				    end
+					local t = client.focus and client.focus.first_tag or nil
+					if t then
+						local tag = client.focus.screen.tags[(t.index - 2) % 9 + 1]
+						awful.client.movetotag(tag)
+						awful.tag.viewprev()
+					end
 				end,
 				{ description = "send focused client to previous tag", group = "tag" }),
 		awful.key({ modkey, "Shift" }, "n",
 				function()
-			        local t = client.focus and client.focus.first_tag or nil
-			        if t then
-				        local tag = client.focus.screen.tags[t.index % 9 + 1]
-				        awful.client.movetotag(tag)
-				        awful.tag.viewnext()
-				    end
+					local t = client.focus and client.focus.first_tag or nil
+					if t then
+						local tag = client.focus.screen.tags[t.index % 9 + 1]
+						awful.client.movetotag(tag)
+						awful.tag.viewnext()
+					end
 				end,
 				{ description = "send focused client to next tag", group = "tag" }),
 
@@ -757,9 +810,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- -- Theme
 local dpi = require("beautiful.xresources").apply_dpi
--- beautiful.font = "sans 8"
+beautiful.font = "sans 8"
 beautiful.useless_gap = dpi(5)
--- beautiful.menu_height = dpi(15)
+beautiful.menu_height = dpi(15)
 
 -- Autostart
 awful.spawn.with_shell("~/.autostart.sh &")
