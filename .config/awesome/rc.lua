@@ -806,4 +806,4 @@ beautiful.useless_gap = dpi(5)
 beautiful.menu_height = dpi(15)
 
 -- Autostart
-awful.spawn.with_shell("~/.autostart.sh &")
+awful.spawn.with_shell("~/.config/autostart.sh &")

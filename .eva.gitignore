@@ -6,7 +6,6 @@
 !.themes
 
 # files
-!.autostart.sh
 !.condarc
 !.eva.gitignore
 !.gitconfig
@@ -29,6 +28,7 @@
 !.config/terminator
 !.config/zsh_custom
 
+!.config/autostart.sh
 !.config/nautiterm.yml
 !.config/zshrc
 
