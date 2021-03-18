@@ -30,7 +30,7 @@
 
 !.config/autostart.sh
 !.config/nautiterm.yml
-!.config/zshrc
+!.config/rc.zsh
 
 # extentions
 *.uuid
