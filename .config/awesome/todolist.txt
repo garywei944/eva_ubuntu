@@ -1,9 +1,13 @@
- ☐ Show desktop and then resume with tag 1
  ☐ Rename each tags
- ☐ change default wallpapers
  ☐ Set change wallpaper every 10 min
- ✔ Set win+l to lock @done (21-02-27 00:55)
  ☐ Rule chrome/other apps with default labels
- ☐ Write functions for swap with the left, right.
- ☐ random theme
- ☐ recursive init git submodules
+
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Show desktop and then resume with the previous tag @done (21-03-17 21:14)
+ ✘ recursive init git submodules @cancelled (21-03-17 21:13)
+ ✔ random theme @done (21-03-17 21:13)
+ ✔ change default wallpapers @done (21-03-17 21:13)
+ ✔ Write functions for swap with the left, right. @done (21-03-17 21:13)
+ ✔ Set win+l to lock @done (21-02-27 00:55)

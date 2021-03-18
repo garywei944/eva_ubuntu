@@ -63,19 +63,15 @@ end
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 local themes = {
-	"blackburn",	   -- 1
-	"copland",		 -- 2
-	"dremora",		 -- 3
-	"holo",			-- 4
-	"multicolor",	  -- 5
-	"powerarrow",	  -- 6
-	"powerarrow-dark", -- 7
-	"rainbow",		 -- 8
-	"steamburn",	   -- 9
-	"vertex",		  -- 10
+	"copland",
+	"dremora",
+	"multicolor",
+	"steamburn",
 }
 
-local chosen_theme = themes[9]
+math.randomseed(os.time())
+local chosen_theme = themes[math.random(4)]
+log_debug(chosen_theme)
 -- beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..chosen_theme.."/theme.lua")
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 
@@ -216,10 +212,9 @@ local tasklist_buttons = gears.table.join(
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
 -- Load third-party widgets
-local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
-local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
--- local net_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
-local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+local cpu_widget = require("widgets.cpu-widget.cpu-widget")
+local ram_widget = require("widgets.ram-widget.ram-widget")
+local calendar_widget = require("widgets.calendar-widget.calendar")
 
 local cw = calendar_widget({
 	theme = 'naughty',
@@ -296,9 +291,6 @@ awful.screen.connect_for_each_screen(function(s)
 			ram_widget({
 				timeout = 1
 			}),
-			-- net_widget{
-			-- 	interface = "enp6s0"
-			-- },
 			mykeyboardlayout,
 			wibox.widget.systray(),
 			mytextclock,
