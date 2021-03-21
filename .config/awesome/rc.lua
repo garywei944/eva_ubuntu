@@ -442,7 +442,7 @@ globalkeys = gears.table.join(-- awesome features
         { description = "run dmenu", group = "launcher" }),
     awful.key({ "Control", "Shift" }, "Escape", function() awful.spawn("gnome-system-monitor") end,
         { description = "launch system monitor", group = "launcher" }),
-    awful.key({ modkey }, "b", function() awful.spawn("google-chrome") end,
+    awful.key({ modkey }, "b", function() awful.spawn("google-chrome --password-store=gnome") end,
         { description = "launch google chrome", group = "launcher" }),
     awful.key({ modkey }, "e", function() awful.spawn("nautilus") end,
         { description = "launch nautilus", group = "launcher" }),
