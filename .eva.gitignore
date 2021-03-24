@@ -2,7 +2,6 @@
 
 # directories
 !.bin
-!.grsync
 !.icons
 !.themes
 
@@ -20,9 +19,6 @@
 # .config
 !.config
 .config/*
-!.config/albert
-.config/albert/core.db
-!.config/autostart
 !.config/awesome
 !.config/personal
 !.config/qtile

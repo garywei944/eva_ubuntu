@@ -14,5 +14,6 @@ git reset --hard origin/main
 git branch -m master main
 git branch --set-upstream-to=origin/main main
 ```
+
 ## `.gitignore` and `.eva.gitignore`
 Some useful file search tools and grep tools like `rg` and `fd-find` check `.gitignore` before a subdirectory is expanded or a file is read to improve performance. But maintaining a regular `.gitignore` file for this repo at the user's home directory makes these improvement trivial and useless. So my workaround is to use `.eva.gitignore` instead of `.gitignore` by adding a project level configuration `core.excludesFile`. Note that `git` still response for a `.gitignore` file in every directory.
