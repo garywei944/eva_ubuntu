@@ -81,16 +81,16 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 -- This is used later as the default terminal and editor to run.
 -- terminal = "x-terminal-emulator"
 -- editor = os.getenv("EDITOR") or "editor"
-terminal = "terminator"
-editor = "emacs"
-editor_cmd = terminal .. " -e " .. editor
+local terminal = "terminator"
+local editor = "emacs"
+local editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -225,12 +225,22 @@ mytextclock:connect_signal("button::press",
         if button == 1 then cw.toggle() end
     end)
 
+
 awful.screen.connect_for_each_screen(function(s)
     -- -- Wallpaper
     -- set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    -- Hardcoded Primary screen.
+    local tags
+    if s.index == 1 then
+        -- Primary screen
+        tags = { "1|Code", "2|Web", "3|Folder", "4|Doc", "5|App", "6|Code", "7|Web", "8|Terminal", "9|Reserve" }
+    else
+        -- Support screen
+        tags = { "1|Web", "2|Chat", "3|Smerge", "4|Doc", "5|App", "6|Code", "7|Music", "8|Terminal", "9|Reserve" }
+    end
+    awful.tag(tags, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -325,6 +335,8 @@ globalkeys = gears.table.join(-- awesome features
             }
         end,
         { description = "lua execute prompt", group = "awesome" }),
+    awful.key({ modkey, "Mod1" }, "l", function() awful.spawn.with_shell("lock") end,
+        { description = "lock screen", group = "awesome" }),
 
     -- Change focus
     awful.key({ modkey }, "j",
@@ -593,6 +605,13 @@ clientkeys = gears.table.join(awful.key({ modkey }, "f",
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
+    local descr_view, descr_toggle, descr_move, descr_toggle_focus
+    if i == 1 or i == 9 then
+        descr_view = {description = "view tag #", group = "tag"}
+        descr_toggle = {description = "toggle tag #", group = "tag"}
+        descr_move = {description = "move focused client to tag #", group = "tag"}
+        descr_toggle_focus = {description = "toggle focused client on tag #", group = "tag"}
+    end
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
@@ -603,7 +622,8 @@ for i = 1, 9 do
                     tag:view_only()
                 end
             end,
-            { description = "view tag #" .. i, group = "tag" }),
+            -- { description = "view tag #" .. i, group = "tag" }),
+            descr_view),
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
             function()
@@ -613,7 +633,8 @@ for i = 1, 9 do
                     awful.tag.viewtoggle(tag)
                 end
             end,
-            { description = "toggle tag #" .. i, group = "tag" }),
+            -- { description = "toggle tag #" .. i, group = "tag" }),
+            descr_toggle),
         -- Move client to tag.
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
             function()
@@ -624,7 +645,8 @@ for i = 1, 9 do
                     end
                 end
             end,
-            { description = "move focused client to tag #" .. i, group = "tag" }),
+            -- { description = "move focused client to tag #" .. i, group = "tag" }),
+            descr_move),
         -- Toggle tag on focused client.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
             function()
@@ -635,7 +657,8 @@ for i = 1, 9 do
                     end
                 end
             end,
-            { description = "toggle focused client on tag #" .. i, group = "tag" }))
+            -- { description = "toggle focused client on tag #" .. i, group = "tag" }))
+            descr_toggle_focus))
 end
 
 clientbuttons = gears.table.join(awful.button({}, 1, function(c)
@@ -708,6 +731,7 @@ awful.rules.rules = {
                 "AlarmWindow", -- Thunderbird's calendar.
                 "ConfigManager", -- Thunderbird's about:config.
                 "pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
+                "setup",
             }
         },
         properties = { floating = true }
@@ -724,6 +748,43 @@ awful.rules.rules = {
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+
+    {
+        rule = {
+            instance = "sublime_text"
+        },
+        properties = { tag = screen[1].tags[6] }
+    },
+    {
+        rule = {
+            name = "WeChat"
+        },
+        properties = { tag = screen[2].tags[2] }
+    },
+    {
+        rule = {
+            name = "Discord"
+        },
+        properties = { tag = screen[2].tags[2] }
+    },
+    {
+        rule = {
+            instance = "sublime_merge"
+        },
+        properties = { tag = screen[2].tags[3] }
+    },
+    {
+        rule = {
+            instance = "netease-cloud-music"
+        },
+        properties = { tag = screen[2].tags[7] }
+    },
+    {
+        rule = {
+            instance = "gnome-system-monitor"
+        },
+        properties = { tag = screen[2].tags[8] }
+    },
 }
 -- }}}
 
