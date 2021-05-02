@@ -7,6 +7,8 @@ alias rghi='rg --hidden --no-ignore'
 alias s='neofetch'
 
 # Commands
+alias ak='sudo apt-key'
+
 alias bs='browser-sync'
 alias bss='browser-sync start'
 alias bsexpress='browser-sync start -p "localhost:5000" -f "public"'

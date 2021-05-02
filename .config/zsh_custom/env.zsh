@@ -38,3 +38,8 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+
+# AWS EB CLI
+export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
+export PATH="$HOME/.pyenv/versions/3.7.2/bin:$PATH"
