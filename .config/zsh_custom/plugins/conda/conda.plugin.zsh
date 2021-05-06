@@ -18,9 +18,56 @@ alias crp="conda remove -y --all -p"
 alias ccn="conda create -y -n"
 alias ccp="conda create -y -p"
 alias ccf="conda env create -f"
+alias ccfe="conda env create -f environment.yml"
+alias ccfp="conda env create -f environment.yml -p .venv"
 
 alias cconf="conda config"
 alias ccss="conda config --show-source"
 alias cu="conda update"
 alias cuc="conda update conda"
 alias cua="conda update --all"
+alias cuf="conda env update -f"
+
+function clink() {
+	local link
+	link=$(wget -O - https://www.anaconda.com/distribution/ 2>/dev/null | sed -ne 's@.*\(https:\/\/repo\.anaconda\.com\/archive\/Anaconda3-.*-Linux-x86_64\.sh\)\">64-Bit (x86) Installer.*@\1@p')
+	echo $link
+}
+
+function cver() {
+	local version
+	version=$(echo $(clink) | sed -ne 's/.*Anaconda3-\(.*\)-Linux-x86_64.sh/\1/p')
+	echo $version
+}
+
+function cudaver() {
+	cat /usr/local/cuda/version.txt | sed -ne 's/.* \(.*\..*\)\..*/\1/p'
+}
+
+function cinit() {
+	cat << EOF > environment.yml
+name: $1
+channels:
+  - defaults
+dependencies:
+  - anaconda=$(cver)
+EOF
+	cat environment.yml
+}
+
+
+function torchinit() {
+	cat << EOF > environment.yml
+name: $1
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - anaconda=$(cver)
+  - pytorch
+  - torchvision
+  - torchaudio
+  - cudatoolkit=$(cudaver)
+EOF
+	cat environment.yml
+}
