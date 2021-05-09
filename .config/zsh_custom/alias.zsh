@@ -18,10 +18,10 @@ alias bsexpress='browser-sync start -p "localhost:5000" -f "public"'
 alias hdfview='/opt/HDFView/3.1.1/hdfview.sh'
 
 # PyCharm
-function pycm() {
+function pcm() {
 	pycharm $@ &> /dev/null & disown
 }
-alias pycmt='pycharm . &> /dev/null & disown'
+alias pcmt='pycharm . &> /dev/null & disown'
 
 # gitignore
 alias gaignore='git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached'
