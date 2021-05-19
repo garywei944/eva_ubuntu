@@ -16,7 +16,6 @@ fi
 # export ARCHFLAGS="-arch x86_64"
 
 export PATH=$PATH:~/.cargo/bin
-export PATH=$PATH:~/.local/bin
 
 # GPG_TTY
 export GPG_TTY="$(tty)"
