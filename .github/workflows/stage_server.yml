@@ -1,4 +1,4 @@
-name: Build server branch
+name: Stage changes made on server
 
 on:
   push:
@@ -15,16 +15,15 @@ jobs:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
     - name: Create local changes
       run: |
-        git checkout -b server
-        ./build_server.sh
+        git checkout -b stage
     - name: Commit files
       run: |
         git config --local user.email "33930674+garywei944@users.noreply.github.com"
         git config --local user.name "garywei944"
-        git commit -m "Build the server version with GitHub Actions" -a
+        git commit -m "Stage changes made on server with GitHub Actions" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: "refs/heads/server"
+        branch: "refs/heads/stage"
         force: true
