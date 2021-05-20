@@ -28,12 +28,11 @@ alias gaignore='git ls-files -ci --exclude-standard -z | xargs -0 git rm --cache
 
 
 alias reload='. ~/.zshrc'
-alias xaw='Xephyr -br -ac -noreset -screen 1920x1080 :1 & sleep 2 ; DISPLAY=:1 awesome'
-alias xqt='Xephyr -br -ac -noreset -screen 1920x1080 :1 & sleep 2 ; DISPLAY=:1 qtile start'
 
 # Servers
 alias sachiel='ssh root@47.92.194.143'
-alias shamshiel='ssh ubuntu@3.83.202.176'
+alias shamshel='ssh ubuntu@3.83.202.176'
+alias ramiel='ssh gwei@cs.uml.edu'
 
 # Maybe
 alias lg='lazygit'
