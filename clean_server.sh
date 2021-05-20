@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd ~ || exit
 rm -fr .icons .themes
 
 cd .config
