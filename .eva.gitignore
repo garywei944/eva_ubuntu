@@ -13,7 +13,7 @@
 !.profile
 !.vimrc
 !.wakatime.cfg
-!build_server.sh
+!clean_server.sh
 !LICENSE
 !Vagrantfile
 !README.md

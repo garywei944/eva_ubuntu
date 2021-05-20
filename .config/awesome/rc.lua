@@ -67,14 +67,14 @@ end
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 local themes = {
-    "copland",
+    -- "copland",
     "dremora",
     "multicolor",
     "steamburn",
 }
 
 math.randomseed(os.time())
-local chosen_theme = themes[math.random(4)]
+local chosen_theme = themes[math.random(3)]
 -- beautiful.init(gears.filesystem.get_configuration_dir().."themes/"..chosen_theme.."/theme.lua")
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 
