@@ -41,7 +41,7 @@ function cver() {
 }
 
 function cudaver() {
-	cat /usr/local/cuda/version.txt | sed -ne 's/.* \(.*\..*\)\..*/\1/p'
+	nvcc -V | sed -ne 's/.* V\(.*\..*\)\..*/\1/p'
 }
 
 function cinit() {
