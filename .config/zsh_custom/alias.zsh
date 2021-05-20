@@ -32,7 +32,6 @@ alias reload='. ~/.zshrc'
 # Servers
 alias sachiel='ssh root@47.92.194.143'
 alias shamshel='ssh ubuntu@3.83.202.176'
-alias ramiel='ssh gwei@cs.uml.edu'
 
 # Maybe
 alias lg='lazygit'
