@@ -75,5 +75,11 @@ plugins=(sudo ubuntu fd ripgrep z history extract git git-flow emacs sublime sub
 source $ZSH/oh-my-zsh.sh
 
 # Welcome message
-echo "$(echo "ariseus" | figlet)
-Welcome back, ariseus." | lolcat
+[[ $(command -v figlet) && $(command -v lolcat) ]] \
+&& echo "$(echo "ariseus" | figlet)
+Welcome back, ariseus." | lolcat \
+|| echo "--------------------
+
+Welcome back, ariseus.
+
+--------------------"
