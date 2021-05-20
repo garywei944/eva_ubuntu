@@ -2,6 +2,7 @@
 
 # directories
 !.bin
+!.github
 !.icons
 !.themes
 
@@ -12,6 +13,7 @@
 !.profile
 !.vimrc
 !.wakatime.cfg
+!build_server.sh
 !LICENSE
 !Vagrantfile
 !README.md
