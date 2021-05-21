@@ -14,6 +14,9 @@ alias bs='browser-sync'
 alias bss='browser-sync start'
 alias bsexpress='browser-sync start -p "localhost:5000" -f "public"'
 
+# Cookiecutter
+alias ckct='cookiecutter https://github.com/garywei944/cookiecutter-data-science.git'
+
 # HDFView
 alias hdfview='/opt/HDFView/3.1.1/hdfview.sh'
 
