@@ -9,6 +9,11 @@ alias s='neofetch'
 # Commands
 alias ak='sudo apt-key'
 
+# Time
+alias isodate='date +%F'
+alias isotime='date +%Y-%m-%dT%H:%M:%S%z'
+alias utctime='date -u +%FT%TZ'
+
 # Browser-sync
 alias bs='browser-sync'
 alias bss='browser-sync start'
