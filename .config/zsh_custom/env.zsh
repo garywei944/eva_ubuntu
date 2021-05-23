@@ -7,9 +7,9 @@ export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='emacs -nw'
+  export EDITOR='vim'
 else
-  export EDITOR='emacs'
+  export EDITOR='subl'
 fi
 
 # Compilation flags
@@ -38,8 +38,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-
-# AWS EB CLI
-export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
-export PATH="$HOME/.pyenv/versions/3.7.2/bin:$PATH"

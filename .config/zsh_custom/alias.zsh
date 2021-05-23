@@ -22,15 +22,6 @@ alias bsexpress='browser-sync start -p "localhost:5000" -f "public"'
 # Cookiecutter
 alias ckct='cookiecutter https://github.com/garywei944/cookiecutter-data-science.git'
 
-# HDFView
-alias hdfview='/opt/HDFView/3.1.1/hdfview.sh'
-
-# PyCharm
-function pcm() {
-	pycharm $@ &> /dev/null & disown
-}
-alias pcmt='pycharm . &> /dev/null & disown'
-
 # gitignore
 alias gaignore='git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached'
 

@@ -43,31 +43,3 @@ function cver() {
 function cudaver() {
 	nvcc -V | sed -ne 's/.* V\(.*\..*\)\..*/\1/p'
 }
-
-function cinit() {
-	cat << EOF > environment.yml
-name: $1
-channels:
-  - defaults
-dependencies:
-  - anaconda=$(cver)
-EOF
-	cat environment.yml
-}
-
-
-function torchinit() {
-	cat << EOF > environment.yml
-name: $1
-channels:
-  - pytorch
-  - defaults
-dependencies:
-  - anaconda=$(cver)
-  - pytorch
-  - torchvision
-  - torchaudio
-  - cudatoolkit=$(cudaver)
-EOF
-	cat environment.yml
-}
