@@ -233,12 +233,12 @@ awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
     -- Hardcoded Primary screen.
     local tags
-    if s.index == 1 then
-        -- Primary screen
-        tags = { "1|Code", "2|Web", "3|Folder", "4|Doc", "5|App", "6|Code", "7|Web", "8|Terminal", "9|Reserve" }
-    else
+    if s.index == 2 then
         -- Support screen
         tags = { "1|Web", "2|Chat", "3|Smerge", "4|Doc", "5|App", "6|Code", "7|Music", "8|Terminal", "9|Reserve" }
+    else
+        -- Primary screen
+        tags = { "1|Code", "2|Web", "3|Folder", "4|Doc", "5|App", "6|Code", "7|Web", "8|Terminal", "9|Reserve" }
     end
     awful.tag(tags, s, awful.layout.layouts[1])
 
@@ -588,16 +588,16 @@ clientkeys = gears.table.join(awful.key({ modkey }, "f",
     -- move client to screen
     awful.key({ modkey, "Shift" }, "comma",
         function(c)
-            if c.screen.index < screen.count() then
+            -- if c.screen.index < screen.count() then
                 c:move_to_screen(c.screen.index + 1)
-            end
+            -- end
         end,
         { description = "move to the next screen", group = "screen" }),
     awful.key({ modkey, "Shift" }, "m",
         function(c)
-            if c.screen.index > 1 then
+            -- if c.screen.index > 1 then
                 c:move_to_screen(c.screen.index - 1)
-            end
+            -- end
         end,
         { description = "move to the previous screen", group = "screen" }))
 
