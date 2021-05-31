@@ -15,6 +15,9 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# JAVA
+export JAVA_HOME=/usr/lib/jvm/default-java
+
 export PATH=$PATH:~/.cargo/bin
 
 # GPG_TTY
