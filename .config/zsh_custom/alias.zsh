@@ -25,6 +25,12 @@ alias ckct='cookiecutter https://github.com/garywei944/cookiecutter-data-science
 # gitignore
 alias gaignore='git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached'
 
+# MetaMap Server
+alias startmm='sudo /opt/metamap_2020/public_mm/bin/skrmedpostctl start
+sudo /opt/metamap_2020/public_mm/bin/wsdserverctl start'
+alias stopmm='sudo /opt/metamap_2020/public_mm/bin/skrmedpostctl stop
+sudo /opt/metamap_2020/public_mm/bin/wsdserverctl stop'
+
 
 alias reload='. ~/.zshrc'
 
